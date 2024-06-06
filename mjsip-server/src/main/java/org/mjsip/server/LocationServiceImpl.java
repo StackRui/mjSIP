@@ -115,6 +115,7 @@ public class LocationServiceImpl implements LocationService {
 		if (hasUser(user)) return this;
 		UserBindingInfo ur=new UserBindingInfo(user);
 		users.put(user,ur);
+		LOG.info("user "+user+" added");
 		changed=true;
 		return this;
 	}

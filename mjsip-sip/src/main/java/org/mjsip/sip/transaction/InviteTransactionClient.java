@@ -80,7 +80,7 @@ public class InviteTransactionClient extends TransactionClient {
 	/** Starts the InviteTransactionClient and sends the invite request. */
 	@Override
 	public void request() {
-		LOG.trace("start");
+		LOG.debug("start");
 		changeStatus(STATE_TRYING); 
 		transaction_to = sip_provider.scheduler().schedule(sip_provider.sipConfig().getTransactionTimeout(),
 				this::onTransaction);
@@ -119,7 +119,7 @@ public class InviteTransactionClient extends TransactionClient {
 								this::onEnd);
 					}
 					else {
-						LOG.trace("end_to=0 for reliable transport");
+						LOG.debug("end_to=0 for reliable transport");
 						onEnd();
 					}
 				}
@@ -159,7 +159,7 @@ public class InviteTransactionClient extends TransactionClient {
 
 			scheduleRetransmission(sip_provider.sipConfig().getRetransmissionTimeout());
 		}
-		else LOG.trace("No retransmissions for reliable transport ("+connection_id+")");
+		else LOG.debug("No retransmissions for reliable transport ("+connection_id+")");
 	}
 
 	/** Terminates the transaction. */

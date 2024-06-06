@@ -103,7 +103,7 @@ public class AckTransactionServer extends Transaction {
 
 	/** Starts the AckTransactionServer. */
 	public void respond() {
-		LOG.trace("start");
+		LOG.debug("start");
 		changeStatus(STATE_PROCEEDING); 
 		// (CHANGE-071209) add sip provider listener
 		sip_provider.addSelectiveListener(transaction_id,this);
@@ -124,7 +124,7 @@ public class AckTransactionServer extends Transaction {
 	public void onReceivedMessage(SipProvider sip_provider, SipMessage msg) {
 		if (statusIs(STATE_PROCEEDING) && msg.isRequest()) {
 			if (msg.isInvite()) {
-				LOG.trace("response retransmission");
+				LOG.debug("response retransmission");
 				sip_provider.sendMessage(response);
 			}
 			/*else

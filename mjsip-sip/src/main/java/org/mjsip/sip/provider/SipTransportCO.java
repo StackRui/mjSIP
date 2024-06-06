@@ -228,7 +228,7 @@ public abstract class SipTransportCO implements SipTransport/*, SipTransportConn
 	public void halt() {
 		// close all connections
 		if (connections!=null) {
-			LOG.trace("connections are going down");
+			LOG.debug("connections are going down");
 			for (Enumeration<SipTransportConnection> e=connections.elements(); e.hasMoreElements(); ) {
 				SipTransportConnection c=e.nextElement();
 				c.halt();
@@ -299,10 +299,10 @@ public abstract class SipTransportCO implements SipTransport/*, SipTransportConn
 			//conn=(SipTransportConnection)connections.get(connection_id);
 			// DEBUG log:
 			if(LOG.isTraceEnabled()) {
-				LOG.trace("active connenctions:");
+				LOG.debug("active connenctions:");
 				for (Map.Entry<ConnectionId, SipTransportConnection> e : connections.entrySet() ) {
 					ConnectionId id= e.getKey();
-					LOG.trace("connection-id="+id+": "+(e.getValue()).toString());
+					LOG.debug("connection-id="+id+": "+(e.getValue()).toString());
 				}
 			}
 		}
@@ -321,10 +321,10 @@ public abstract class SipTransportCO implements SipTransport/*, SipTransportConn
 				conn.halt();
 				// DEBUG log:
 				if(LOG.isTraceEnabled()) {
-					LOG.trace("active connenctions:");
+					LOG.debug("active connenctions:");
 					for (Enumeration<SipTransportConnection> e=connections.elements(); e.hasMoreElements(); ) {
 						SipTransportConnection co= e.nextElement();
-						LOG.trace("conn "+co.toString());
+						LOG.debug("conn "+co.toString());
 					}
 				}
 			}

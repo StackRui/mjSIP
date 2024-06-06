@@ -21,7 +21,7 @@ public class LoopbackMediaStreamer implements MediaStreamer {
 	public LoopbackMediaStreamer(FlowSpec flow_spec) {
 		try {
 			udp_relay=new UdpRelay(flow_spec.getLocalPort(),flow_spec.getRemoteAddress(),flow_spec.getRemotePort(),null);
-		LOG.trace("relay "+udp_relay.toString()+" started");
+		LOG.debug("relay "+udp_relay.toString()+" started");
 		}
 		catch (Exception e) {
 			LOG.info("Exception.", e);
@@ -43,7 +43,7 @@ public class LoopbackMediaStreamer implements MediaStreamer {
 		if (udp_relay!=null) {
 			udp_relay.halt();
 			udp_relay=null;
-			LOG.trace("relay halted");
+			LOG.debug("relay halted");
 		}      
 		return true;
 	}

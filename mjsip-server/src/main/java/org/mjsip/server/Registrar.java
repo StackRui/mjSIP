@@ -134,7 +134,7 @@ public class Registrar extends ServerEngine {
 	/** Gets the request's targets.
 	  * @return a vector of target URIs (Vector of <code>String</code>). */
 	protected Vector getTargets(SipMessage msg) {
-		LOG.trace("inside getTargets(msg)");
+		LOG.debug("inside getTargets(msg)");
 
 		Vector targets=new Vector();
 		
@@ -165,18 +165,18 @@ public class Registrar extends ServerEngine {
 		GenericURI to_uri=msg.getToHeader().getNameAddress().getAddress();
 		
 		Enumeration e=location_service.getUserContactURIs(user);
-		LOG.trace("message targets: ");  
+		LOG.debug("message targets: ");  
 		for (int i=0; e.hasMoreElements(); i++) {
 			// if exipred, remove the contact URI
 			String contact=(String)e.nextElement();
 			if (location_service.isUserContactExpired(user,contact)) {
 				location_service.removeUserContact(user,contact);
-			LOG.trace("target"+i+" expired: contact URI removed");
+			LOG.debug("target"+i+" expired: contact URI removed");
 			}
 			// otherwise add the URI to the target list
 			else {
 				targets.addElement(contact);
-				LOG.trace("target"+i+"="+targets.elementAt(i));
+				LOG.debug("target"+i+"="+targets.elementAt(i));
 			}
 		}
 		// for SIPS request-uri remove non-SIPS targets
@@ -261,7 +261,7 @@ public class Registrar extends ServerEngine {
 
 		ContactHeader ch_0=new ContactHeader((Header)contacts.elementAt(0));
 		if (ch_0.isStar()) {
-			LOG.trace("ContactHeader is star");
+			LOG.debug("ContactHeader is star");
 			Vector resp_contacts=new Vector();
 			for (Enumeration e=location_service.getUserContactURIs(user); e.hasMoreElements();)  {
 				String contact=(String)(e.nextElement());
@@ -269,13 +269,13 @@ public class Registrar extends ServerEngine {
 					NameAddress name_address=location_service.getUserContactNameAddress(user,contact);
 					// update db
 					location_service.removeUserContact(user,contact);
-					LOG.trace("contact removed: "+contact);
+					LOG.debug("contact removed: "+contact);
 					if (exp_secs>0) {
 						Date exp_date=new Date(System.currentTimeMillis()+((long)exp_secs)*1000);
 						location_service.addUserContact(user,name_address,exp_date);
 						//DateFormat df=new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss 'GMT'",Locale.ITALIAN);
 						//printLog("contact added: "+uri+"; expire: "+df.format(location_service.getUserContactExpire(user,url)),LogWriter.LEVEL_LOW);
-						LOG.trace("contact added: "+contact+"; expire: "+DateFormat.formatEEEddMMMyyyyhhmmss(location_service.getUserContactExpirationDate(user,contact)));
+						LOG.debug("contact added: "+contact+"; expire: "+DateFormat.formatEEEddMMMyyyyhhmmss(location_service.getUserContactExpirationDate(user,contact)));
 					}
 					ContactHeader ch_i=new ContactHeader(name_address.getAddress());
 					ch_i.setExpires(exp_secs);

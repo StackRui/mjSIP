@@ -173,7 +173,7 @@ public class TransactionServer extends Transaction {
 			}
 			if (statusIs(STATE_PROCEEDING) || statusIs(STATE_COMPLETED)) {
 				// retransmission of the last response
-				LOG.trace("response retransmission");
+				LOG.debug("response retransmission");
 				sip_provider.sendMessage(response);
 				return;
 			}

@@ -70,12 +70,15 @@ public class Proxy extends Registrar {
 		if (msg.isRegister()) {
 			super.processRequestToLocalServer(msg);
 		}
-		else
-		if (!msg.isAck()) {
+		else if(msg.isMessage()){
+			SipMessage resp=sip_provider.messageFactory().createResponse(msg,SipResponses.OK,null,null);
+			sip_provider.sendMessage(resp);
+		}
+		else if (!msg.isAck()) {
 			// send a stateless error response
 			//int result=501; // response code 501 ("Not Implemented")
 			//int result=485; // response code 485 ("Ambiguous");
-			SipMessage resp=sip_provider.messageFactory().createResponse(msg,SipResponses.ADDRESS_INCOMPLETE,null,null);
+			SipMessage resp=sip_provider.messageFactory().createResponse(msg,SipResponses.NOT_IMPLEMENTED,null,null);
 			sip_provider.sendMessage(resp);
 		}
 	}
@@ -165,7 +168,7 @@ public class Proxy extends Registrar {
 	/** Processes the Proxy headers of the request.
 	  * Such headers are: Via, Record-Route, Route, Max-Forwards, etc. */
 	protected SipMessage updateProxyingRequest(SipMessage msg) {
-		LOG.trace("inside updateProxyingRequest(msg)");
+		LOG.debug("inside updateProxyingRequest(msg)");
 
 		// clear transport information
 		msg.clearTransport();
@@ -271,7 +274,7 @@ public class Proxy extends Registrar {
 
 	/** Gets a new target according to the domain-based forwarding rules. */
 	protected SipURI getAuthDomainBasedProxyingTarget(GenericURI request_uri) {
-		LOG.trace("inside getAuthDomainBasedProxyingTarget(uri)");
+		LOG.debug("inside getAuthDomainBasedProxyingTarget(uri)");
 		// authenticated rules
 		for (int i=0; i<server_profile.authenticatedDomainProxyingRules.length; i++) {
 			ProxyingRule rule=(ProxyingRule)server_profile.authenticatedDomainProxyingRules[i];
@@ -289,7 +292,7 @@ public class Proxy extends Registrar {
 
 	/** Gets a new target according to the domain-based forwarding rules. */
 	protected SipURI getDomainBasedProxyingTarget(GenericURI request_uri) {
-		LOG.trace("inside getDomainBasedForwardingTarget(uri)");
+		LOG.debug("inside getDomainBasedForwardingTarget(uri)");
 		// non-authenticated rules
 		for (int i=0; i<server_profile.domainProxyingRules.length; i++) {
 			ProxyingRule rule=(ProxyingRule)server_profile.domainProxyingRules[i];
@@ -307,7 +310,7 @@ public class Proxy extends Registrar {
 
 	/** Gets a new target according to the authenticated prefix-based forwarding rules. */
 	protected SipURI getAuthPrefixBasedProxyingTarget(GenericURI request_uri) {
-		LOG.trace("inside getAuthPrefixBasedProxyingTarget(uri)");
+		LOG.debug("inside getAuthPrefixBasedProxyingTarget(uri)");
 		if (!request_uri.isSipURI())  return null;
 		// else
 		SipURI sip_uri=request_uri.toSipURI();
@@ -315,7 +318,7 @@ public class Proxy extends Registrar {
 		if (username==null || !isPhoneNumber(username))  return null;
 		// else
 		// authenticated rules
-		LOG.trace("authenticated prefix-based rules: "+server_profile.authenticatedPhoneProxyingRules.length);
+		LOG.debug("authenticated prefix-based rules: "+server_profile.authenticatedPhoneProxyingRules.length);
 		for (int i=0; i<server_profile.authenticatedPhoneProxyingRules.length; i++) {
 			ProxyingRule rule=(ProxyingRule)server_profile.authenticatedPhoneProxyingRules[i];
 			SipURI nexthop=rule.getNexthop(request_uri);
@@ -332,7 +335,7 @@ public class Proxy extends Registrar {
 
 	/** Gets a new target according to the prefix-based forwarding rules. */
 	protected SipURI getPrefixBasedProxyingTarget(GenericURI request_uri) {
-		LOG.trace("inside getPrefixBasedProxyingTarget(uri)");
+		LOG.debug("inside getPrefixBasedProxyingTarget(uri)");
 		if (!request_uri.isSipURI())  return null;
 		// else
 		SipURI sip_uri=request_uri.toSipURI();
@@ -340,7 +343,7 @@ public class Proxy extends Registrar {
 		if (username==null || !isPhoneNumber(username))  return null;
 		// else
 		// non-authenticated rules
-		LOG.trace("prefix-based rules: "+server_profile.phoneProxyingRules.length);
+		LOG.debug("prefix-based rules: "+server_profile.phoneProxyingRules.length);
 		for (int i=0; i<server_profile.phoneProxyingRules.length; i++) {
 			ProxyingRule rule=(ProxyingRule)server_profile.phoneProxyingRules[i];
 			SipURI nexthop=rule.getNexthop(request_uri);

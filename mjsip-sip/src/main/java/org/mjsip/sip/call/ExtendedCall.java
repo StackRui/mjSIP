@@ -181,7 +181,7 @@ public class ExtendedCall extends Call {
 	/** From ExtendedInviteDialogListener. When an incoming REFER request is received within the dialog */ 
 	private void processDlgRefer(org.mjsip.sip.dialog.InviteDialog d, NameAddress refer_to, NameAddress referred_by, SipMessage msg) {
 		if (d!=dialog) {  LOG.info("NOT the current dialog");  return;  }
-		LOG.trace("onDlgRefer("+refer_to.toString()+")");       
+		LOG.debug("onDlgRefer("+refer_to.toString()+")");       
 		refer=msg;
 		if (xcall_listener!=null) {
 			String replcall_id=null;
@@ -194,7 +194,7 @@ public class ExtendedCall extends Call {
 	/** From ExtendedInviteDialogListener. When a response is received for a REFER request within the dialog */ 
 	private void processDlgReferResponse(org.mjsip.sip.dialog.InviteDialog d, int code, String reason, SipMessage msg) {
 		if (d!=dialog) {  LOG.info("NOT the current dialog");  return;  }
-		LOG.trace("onDlgReferResponse("+code+" "+reason+")");       
+		LOG.debug("onDlgReferResponse("+code+" "+reason+")");       
 		if (code>=200 && code <300) {
 			if(xcall_listener!=null) xcall_listener.onCallTransferAccepted(this,msg);
 		}
@@ -207,7 +207,7 @@ public class ExtendedCall extends Call {
 	/** From ExtendedInviteDialogListener. When an incoming NOTIFY request is received within the dialog */ 
 	private void processDlgNotify(org.mjsip.sip.dialog.InviteDialog d, String event, String sipfragment, SipMessage msg) {
 		if (d!=dialog) {  LOG.info("NOT the current dialog");  return;  }
-		LOG.trace("onDlgNotify()");
+		LOG.debug("onDlgNotify()");
 		if (event.equals("refer")) {
 			SipMessage fragment=new SipMessage(sipfragment);
 			LOG.info("Notify: "+sipfragment);

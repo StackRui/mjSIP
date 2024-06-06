@@ -459,7 +459,7 @@ public class SipConfig implements SipOptions {
 		case IP6:
 			return getViaAddrIPv6();
 		case DEFAULT:
-			LOG.warn("Using undefined via address type.", new RuntimeException("Stack trace"));
+			//LOG.warn("Using undefined via address type.", new RuntimeException("Stack trace"));
 			break;
 		}
 		return _preferIPv4 ? getViaAddrIPv4() : getViaAddrIPv6();

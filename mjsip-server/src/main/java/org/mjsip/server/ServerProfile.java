@@ -57,7 +57,7 @@ public class ServerProfile {
 	public boolean cleanLocationDb=false;
 
 	@Option(name = "--do-authentication", usage = "Whether the server requires authentication from local users.", handler = YesNoHandler.class)
-	public boolean doAuthentication=false;
+	public boolean doAuthentication=true;
 	
 	@Option(name = "--do-proxy-authentication", usage = "Whether the proxy requires authentication from users.", handler = YesNoHandler.class)
 	public boolean doProxyAuthentication=false;

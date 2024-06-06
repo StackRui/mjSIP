@@ -54,7 +54,7 @@ public class AckTransactionClient extends Transaction {
 	
 	/** Starts the AckTransactionClient and sends the ACK request. */
 	public void request() {
-		LOG.trace("start");
+		LOG.debug("start");
 		sip_provider.sendMessage(request);
 		changeStatus(STATE_TERMINATED);  
 		//if (transaction_listener!=null) transaction_listener.onAckCltTerminated(this); 

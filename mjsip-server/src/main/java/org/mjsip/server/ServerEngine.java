@@ -288,7 +288,7 @@ public abstract class ServerEngine implements SipProviderListener {
 					
 					// update the target
 					target=msg.getRequestLine().getAddress();
-					LOG.trace("new recipient: "+target.toString());
+					LOG.debug("new recipient: "+target.toString());
 					
 					// check again if this server is the target
 					//this_is_target=matchesDomainName(target.getHost(),target.getPort());
@@ -308,14 +308,14 @@ public abstract class ServerEngine implements SipProviderListener {
 
 			// check whether the request is for a domain the server is responsible for
 			boolean is_for_this_domain=isResponsibleFor(msg);
-			LOG.trace("is for local doamin? "+((is_for_this_domain)?"yes":"no"));
+			LOG.debug("is for local doamin? "+((is_for_this_domain)?"yes":"no"));
 			
 			// check whether the request is coming from a user belonging to a domain the server is responsible for
 			boolean is_from_this_domain=isResponsibleFor(msg.getFromHeader().getNameAddress().getAddress());
-			LOG.trace("is from local doamin? "+((is_from_this_domain)?"yes":"no"));
+			LOG.debug("is from local doamin? "+((is_from_this_domain)?"yes":"no"));
 
-			if (is_for_this_domain && (target.isSipURI() && !target.toSipURI().hasUserName())) {
-				LOG.trace("the recipient is this server");
+			if (is_for_this_domain && (target.isSipURI() && (!target.toSipURI().hasUserName() || target.toSipURI().getUserName().equals("34020000002000000001")))) {
+				LOG.debug("the recipient is this server");
 				// check message authentication (server authentication)
 				if (server_profile.doAuthentication && !msg.isAck() && !msg.isCancel()) {
 					err_resp=as.authenticateRequest(msg);  
@@ -330,7 +330,7 @@ public abstract class ServerEngine implements SipProviderListener {
 				processRequestToLocalServer(msg);
 			}
 			else {
-				LOG.trace("the recipient is NOT this server");
+				LOG.debug("the recipient is NOT this server");
 				// check message authentication (proxy authentication)
 				boolean is_spiral=(msg.getRemotePort()==sip_provider.getPort() && (msg.getRemoteAddress().startsWith("127.") || msg.getRemoteAddress().equals(sip_provider.getViaAddress())));
 				if (server_profile.doProxyAuthentication && is_from_this_domain && !is_spiral && !msg.isAck() && !msg.isCancel()) {
@@ -345,12 +345,12 @@ public abstract class ServerEngine implements SipProviderListener {
 					}
 				}
 				if (is_for_this_domain) {
-					LOG.trace("the request is for a local user");
+					LOG.debug("the request is for a local user");
 					// process the message
 					processRequestToLocalUser(msg);
 				}
 				else {
-					LOG.trace("the request is for a remote UA");
+					LOG.debug("the request is for a remote UA");
 					// process the message
 					processRequestToRemoteUA(msg);
 				}
@@ -359,7 +359,7 @@ public abstract class ServerEngine implements SipProviderListener {
 		else {
 			// the message may be a response
 			if (msg.isResponse()) {
-				LOG.trace("message is a response");
+				LOG.debug("message is a response");
 				processResponse(msg);
 			}
 			else LOG.warn("received message is not recognized as a request nor a response: discarded");
@@ -448,7 +448,7 @@ public abstract class ServerEngine implements SipProviderListener {
 	/** Validates the message.
 	  * @return It returns 0 if the message validation successes, otherwise return the error code. */
 	protected SipMessage validateRequest(SipMessage msg) {
-		LOG.trace("inside validateRequest(msg)");
+		LOG.debug("inside validateRequest(msg)");
 	
 		int err_code=0;
 		

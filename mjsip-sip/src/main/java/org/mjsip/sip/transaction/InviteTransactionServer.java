@@ -131,7 +131,7 @@ public class InviteTransactionServer extends TransactionServer {
 	/** Starts the InviteTransactionServer. */
 	@Override
 	public void listen() {
-		LOG.trace("start");
+		LOG.debug("start");
 		if (statusIs(STATE_IDLE)) {
 			changeStatus(STATE_WAITING);  
 			//sip_provider.addSelectiveListener(new TransactionId(SipMethods.INVITE),this); 
@@ -164,7 +164,7 @@ public class InviteTransactionServer extends TransactionServer {
 				//end_to.start();
 			}
 			else {
-				LOG.trace("No retransmissions for reliable transport ("+connection_id+")");
+				LOG.debug("No retransmissions for reliable transport ("+connection_id+")");
 				//onTimeout(end_to);
 			}
 			end_to = sip_provider.scheduler().schedule(sip_provider.sipConfig().getTransactionTimeout(),

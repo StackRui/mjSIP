@@ -83,7 +83,7 @@ public class TransactionClient extends Transaction {
 
 	/** Starts the TransactionClient and sends the transaction request. */
 	public void request() {
-		LOG.trace("start");
+		LOG.debug("start");
 		changeStatus(STATE_TRYING);
 
 		startTransactionTimeout();

@@ -279,7 +279,7 @@ public class SipProvider implements SipTransportListener {
 			for (Enumeration<String> e = sip_transports.keys(); e.hasMoreElements();) {
 				String proto = e.nextElement();
 				SipTransport transp = sip_transports.get(proto);
-				LOG.trace(proto + " is going down");
+				LOG.debug(proto + " is going down");
 				transp.halt();
 			}
 			sip_transports.clear();
@@ -847,7 +847,7 @@ public class SipProvider implements SipTransportListener {
 	/*
 	 * public ConnectionId sendMessage(SipMessage msg, ConnectionId conn_id) { if (log_all_packets
 	 * || msg.getLength()>MIN_MESSAGE_LENGTH) LOG.info("Sending message through conn "+conn_id);
-	 * LOG.trace("message to send:."+MESSAGE_BEGIN_DELIMITER+msg.toString()+MESSAGE_END_DELIMITER);
+	 * LOG.debug("message to send:."+MESSAGE_BEGIN_DELIMITER+msg.toString()+MESSAGE_END_DELIMITER);
 	 * SipTransportConnection conn=null; for (Enumeration e=sip_transports.elements();
 	 * e.hasMoreElements() && conn==null; ) { SipTransport transp=(SipTransport)e.nextElement(); if
 	 * (isReliableTransport(transp)) conn=((SipTransportCO)transp).sendMessage(msg,conn_id); } if

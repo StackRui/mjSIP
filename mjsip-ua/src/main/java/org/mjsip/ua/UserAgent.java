@@ -691,7 +691,7 @@ public class UserAgent extends CallListenerAdapter implements SipProviderListene
 	@Override
 	public void onCallTransferSuccess(ExtendedCall call, SipMessage notify) {
 		LOG.debug("onCallTransferSuccess()");
-		if (call!=this.call) {  LOG.trace("NOT the current call");  return;  }
+		if (call!=this.call) {  LOG.debug("NOT the current call");  return;  }
 		LOG.debug("transfer successed");
 		call.hangup();
 		if (listener!=null) listener.onUaCallTransferred(this);
